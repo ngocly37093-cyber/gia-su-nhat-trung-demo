@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f3ed">
+  <title>Ngọc Ly — Góc làm việc cá nhân</title>
+  <style>
+    :root {
+      --paper: #f6f3ed;
+      --paper-2: #fffdf9;
+      --ink: #203b37;
+      --muted: #71807a;
+      --line: #dfe5dc;
+      --green: #17564a;
+      --green-2: #e0eee5;
+      --blue: #dfeef0;
+      --peach: #f8e8d9;
+      --lilac: #eee8f4;
+      --gold: #e3bd77;
+      --shadow: 0 18px 45px rgba(39, 69, 59, .08);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; color: var(--ink); background:
+        radial-gradient(ellipse at 85% 8%, rgba(218,236,224,.72), transparent 34rem),
+        radial-gradient(ellipse at 55% 48%, rgba(239,231,244,.55), transparent 42rem), var(--paper);
+      font-family: Inter, "Segoe UI", system-ui, -apple-system, sans-serif;
+    }
+    button, input, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .layout { display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; }
+    .sidebar {
+      position: sticky; top: 0; height: 100vh; padding: 27px 18px 22px;
+      border-right: 1px solid rgba(204,216,207,.8); background: rgba(255,253,249,.68);
+      backdrop-filter: blur(18px); display: flex; flex-direction: column; gap: 24px;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; padding: 0 7px 17px; border-bottom: 1px solid var(--line); }
+    .brand-mark { width: 40px; height: 40px; border-radius: 14px; display: grid; place-items: center; color: #fff; font-size: 20px; background: var(--green); box-shadow: 0 7px 16px rgba(23,86,74,.2); }
+    .brand b { display: block; font-size: 15px; letter-spacing: -.02em; }
+    .brand small { color: var(--muted); font-size: 11px; }
+    .nav-group { display: grid; gap: 8px; }
+    .nav-label { padding: 0 11px; margin: 0 0 3px; color: #89958c; font-size: 10px; font-weight: 800; letter-spacing: .13em; }
+    .nav-link { display: flex; gap: 11px; align-items: center; padding: 10px 11px; border-radius: 12px; color: #596b64; text-decoration: none; font-size: 13px; transition: .18s ease; }
+    .nav-link:hover, .nav-link.active { color: var(--green); background: var(--green-2); }
+    .nav-link .ico { width: 19px; text-align: center; font-size: 16px; }
+    .sidebar-foot { margin-top: auto; padding: 14px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper-2); }
+    .sidebar-foot strong { display: block; font-size: 12px; margin-bottom: 5px; }
+    .sidebar-foot p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    main { width: min(1240px, 100%); margin: 0 auto; padding: 26px clamp(18px, 4vw, 52px) 60px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 17px; border: 1px solid rgba(220,227,218,.9); border-radius: 19px; background: rgba(255,255,255,.66); box-shadow: 0 8px 22px rgba(39,69,59,.04); }
+    .date strong { display: block; font-size: 13px; }
+    .date span { color: var(--muted); font-size: 11px; }
+    .top-actions { display: flex; align-items: center; gap: 9px; }
+    .icon-button { border: 0; background: transparent; color: var(--muted); padding: 8px; border-radius: 10px; }
+    .icon-button:hover { background: #f0f3ed; color: var(--green); }
+    .avatar { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 50%; color: var(--green); background: #e5eddc; font-weight: 800; font-size: 13px; border: 1px solid #d3dfcf; }
+    .hero { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(250px,.65fr); gap: 22px; align-items: stretch; margin: 24px 0 20px; }
+    .hero-copy { padding: clamp(23px,4vw,45px) clamp(20px,3vw,36px); border-radius: 25px; background: linear-gradient(130deg, rgba(255,253,249,.76), rgba(226,240,231,.78)); border: 1px solid rgba(218,226,215,.8); }
+    .eyebrow { color: #7b9387; letter-spacing: .13em; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+    h1 { margin: 12px 0 8px; max-width: 720px; color: #1d3e38; font-family: Georgia, "Times New Roman", serif; font-size: clamp(34px,5vw,57px); font-weight: 600; letter-spacing: -.045em; line-height: 1.04; }
+    .cn { color: #8a9a91; font-size: 15px; font-weight: 500; }
+    .hero-copy > p { max-width: 620px; color: #64776e; font-size: 14px; line-height: 1.7; }
+    .hero-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 22px; }
+    .pill { display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border: 1px solid rgba(210,224,211,.9); border-radius: 999px; background: rgba(255,255,255,.62); color: #526a60; font-size: 11px; }
+    .hero-note { position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; min-height: 244px; padding: 23px; border-radius: 25px; background: var(--green); color: #f8fbf6; box-shadow: var(--shadow); }
+    .hero-note:after { content:""; position:absolute; width:190px; height:190px; border-radius:50%; right:-69px; bottom:-91px; background:rgba(226,239,177,.3); }
+    .hero-note .note-mark { font-size: 24px; color: #e5d29d; }
+    .hero-note blockquote { position: relative; z-index:1; margin: 16px 0; font-family: Georgia,serif; font-size: 21px; line-height:1.42; }
+    .hero-note small { position: relative; z-index:1; color:#d8e7dc; font-size:11px; line-height:1.6; }
+    .stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 13px; margin: 0 0 25px; }
+    .stat { padding: 16px 18px; border: 1px solid rgba(218,226,215,.95); border-radius: 18px; background: rgba(255,253,249,.78); }
+    .stat span { color: #87948c; font-size: 10px; text-transform: uppercase; letter-spacing: .1em; font-weight: 800; }
+    .stat strong { display:block; margin-top:7px; font-size: 16px; }
+    .stat small { color: var(--muted); font-size: 11px; }
+    .section { scroll-margin-top: 22px; margin-top: 23px; }
+    .section-head { display:flex; align-items:end; justify-content:space-between; gap:12px; margin: 0 2px 13px; }
+    .section-head h2 { margin:0; color:#25453e; font-family:Georgia,serif; font-size:24px; font-weight:600; letter-spacing:-.025em; }
+    .section-head p { margin:4px 0 0; color:var(--muted); font-size:11px; }
+    .grid-2 { display:grid; grid-template-columns:1.1fr .9fr; gap:15px; }
+    .card { border:1px solid rgba(218,226,215,.92); border-radius:20px; background:rgba(255,253,249,.88); box-shadow:0 9px 24px rgba(39,69,59,.035); }
+    .card-pad { padding:19px; }
+    .card-title { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:13px; }
+    .card-title h3 { margin:0; font-size:14px; }
+    .card-title span { color:var(--muted); font-size:11px; }
+    .capture { padding: 18px; background: linear-gradient(120deg,#fffdfa,#f3f7f0); }
+    .capture textarea { width:100%; min-height:74px; resize:vertical; padding:12px; border:1px solid var(--line); border-radius:13px; outline:none; color:var(--ink); background:rgba(255,255,255,.8); font-size:13px; }
+    .capture textarea:focus, input:focus { border-color:#9ab9a9; box-shadow:0 0 0 3px rgba(130,174,148,.14); }
+    .row-actions { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-top:11px; }
+    .hint { color:var(--muted); font-size:10px; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:7px; border:0; border-radius:11px; padding:9px 13px; color:#fff; background:var(--green); font-weight:700; font-size:11px; transition:transform .16s,background .16s; }
+    .btn:hover { transform:translateY(-1px); background:#0f453a; }
+    .btn.secondary { color:var(--green); background:#e6efe6; }
+    .btn.ghost { color:#5c7468; background:transparent; }
+    .task-list { display:grid; gap:8px; }
+    .task-row { display:flex; gap:10px; align-items:flex-start; padding:11px 10px; border:1px solid #edf0e9; border-radius:13px; background:#fffefa; }
+    .task-row input { accent-color:var(--green); margin-top:3px; }
+    .task-text { flex:1; color:#405850; font-size:12px; line-height:1.45; overflow-wrap:anywhere; }
+    .task-row.done .task-text { color:#99a69e; text-decoration:line-through; }
+    .task-delete { border:0; color:#a3ada5; background:transparent; padding:2px 4px; }
+    .task-delete:hover { color:#a2514b; }
+    .empty { padding:17px; border:1px dashed #d7e0d5; border-radius:13px; color:var(--muted); font-size:12px; line-height:1.6; }
+    .study-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+    .study-card { position:relative; overflow:hidden; min-height:175px; padding:19px; }
+    .study-card.jp { background:linear-gradient(145deg,#fffdfa,#f6e8e3); }
+    .study-card.zh { background:linear-gradient(145deg,#fffdfa,#e4eff0); }
+    .study-card:after { content:""; position:absolute; width:135px; height:135px; right:-40px; top:-55px; border:1px solid rgba(75,110,94,.12); border-radius:50%; box-shadow:0 0 0 17px rgba(255,255,255,.13),0 0 0 34px rgba(255,255,255,.1); }
+    .study-card .symbol { font-size:22px; }
+    .study-card h3 { position:relative; z-index:1; margin:10px 0 4px; font-family:Georgia,serif; font-size:20px; }
+    .study-card p { position:relative; z-index:1; max-width:300px; margin:5px 0 14px; color:#667b72; font-size:11px; line-height:1.55; }
+    .study-card .sub { color:#83948a; font-size:10px; }
+    .mini-tags { display:flex; flex-wrap:wrap; gap:6px; position:relative; z-index:1; }
+    .mini-tags span { padding:5px 8px; border-radius:999px; background:rgba(255,255,255,.7); color:#5d756a; font-size:9px; }
+    .focus-card { display:grid; grid-template-columns:1fr auto; align-items:center; gap:14px; padding:17px 19px; background:linear-gradient(115deg,#e6f0e7,#f7f2e7); }
+    .focus-card h3 { margin:0 0 5px; font-size:14px; }
+    .focus-card p { margin:0; max-width:560px; color:var(--muted); font-size:11px; line-height:1.55; }
+    .timer { min-width:100px; color:var(--green); font-family:Georgia,serif; font-size:28px; text-align:center; }
+    .timer-actions { display:flex; justify-content:center; gap:6px; margin-top:4px; }
+    .timer-actions button { border:0; padding:5px 8px; border-radius:8px; color:var(--green); background:rgba(255,255,255,.75); font-size:10px; }
+    .week { display:grid; grid-template-columns:repeat(7,1fr); gap:7px; }
+    .day { min-height:86px; padding:11px 7px; border:1px solid #e7ece4; border-radius:13px; background:#fffefa; text-align:center; }
+    .day span { display:block; color:#87948b; font-size:10px; }
+    .day strong { display:block; margin-top:10px; color:#9ba69f; font-size:11px; font-weight:600; }
+    .day.today { border-color:#9fc2aa; background:#eaf2e9; }
+    .day.today strong { color:var(--green); }
+    .links { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .resource { display:flex; align-items:center; gap:10px; min-height:69px; padding:13px; border:1px solid #e8ede6; border-radius:14px; background:#fffefa; color:var(--ink); text-decoration:none; }
+    .resource:hover { border-color:#b7cbb9; transform:translateY(-1px); }
+    .resource .res-ico { width:33px; height:33px; display:grid; place-items:center; border-radius:11px; background:var(--green-2); }
+    .resource b { display:block; font-size:11px; }
+    .resource small { display:block; margin-top:3px; color:var(--muted); font-size:9px; }
+    .note-list { display:grid; gap:8px; max-height:220px; overflow:auto; }
+    .note-item { padding:11px; border-left:3px solid #9fbea8; border-radius:0 10px 10px 0; background:#f5f7f1; }
+    .note-item p { margin:0; color:#52665d; font-size:11px; line-height:1.55; white-space:pre-wrap; }
+    .note-item small { display:block; margin-top:6px; color:#929e95; font-size:9px; }
+    .footer { display:flex; justify-content:space-between; gap:15px; margin-top:27px; padding:16px 4px 0; border-top:1px solid var(--line); color:#89958d; font-size:10px; line-height:1.6; }
+    .mobile-head { display:none; }
+    @media (max-width: 950px) { .layout{grid-template-columns:205px minmax(0,1fr)} .hero{grid-template-columns:1fr} .hero-note{min-height:180px} .grid-2{grid-template-columns:1fr} }
+    @media (max-width: 680px) {
+      .layout{display:block}.sidebar{position:fixed;z-index:5;left:0;right:0;top:auto;bottom:0;width:auto;height:auto;padding:8px 10px calc(8px + env(safe-area-inset-bottom));border-right:0;border-top:1px solid var(--line);background:rgba(255,253,249,.95);backdrop-filter:blur(18px)}
+      .brand,.nav-label,.sidebar-foot{display:none}.nav-group{display:flex;justify-content:space-around;gap:4px}.nav-link{flex:1;justify-content:center;flex-direction:column;gap:3px;padding:7px 3px;font-size:9px}.nav-link .ico{font-size:16px}.nav-group + .nav-group{display:none}
+      main{padding:13px 14px 100px}.topbar{padding:10px 12px}.hero{margin-top:14px;gap:11px}.hero-copy{padding:23px 20px}.hero-note{padding:18px;min-height:145px}.hero-note blockquote{font-size:18px;margin:9px 0}.stats{gap:7px}.stat{padding:11px 9px}.stat strong{font-size:12px}.stat span{font-size:8px}.stat small{font-size:9px}.section-head h2{font-size:21px}.study-grid{gap:8px}.study-card{padding:14px;min-height:190px}.study-card h3{font-size:17px}.week{gap:4px}.day{min-height:72px;padding:9px 3px}.day span{font-size:9px}.day strong{font-size:9px}.links{grid-template-columns:1fr}.focus-card{grid-template-columns:1fr auto;padding:14px}.timer{font-size:24px}.footer{display:block}.footer span{display:block;margin-top:5px}
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Điều hướng workbench">
+      <div class="brand"><div class="brand-mark">✦</div><div><b>Ngọc Ly</b><small>góc làm việc cá nhân · 个人工作台</small></div></div>
+      <nav class="nav-group">
+        <p class="nav-label">HÔM NAY · 今天</p>
+        <a class="nav-link active" href="#home"><span class="ico">⌂</span>Tổng quan</a>
+        <a class="nav-link" href="#tasks"><span class="ico">☑</span>Việc cần làm</a>
+        <a class="nav-link" href="#study"><span class="ico">文</span>Học Nhật–Trung</a>
+      </nav>
+      <nav class="nav-group">
+        <p class="nav-label">GÓC CỦA LY · Ly 的空间</p>
+        <a class="nav-link" href="#focus"><span class="ico">◷</span>Phiên tập trung</a>
+        <a class="nav-link" href="#week"><span class="ico">▦</span>Nhịp tuần</a>
+        <a class="nav-link" href="#notes"><span class="ico">✎</span>Ghi chú nhanh</a>
+      </nav>
+      <div class="sidebar-foot"><strong>Trang công khai · dữ liệu riêng</strong><p>Mỗi người xem lưu việc và ghi chú riêng trong trình duyệt của mình. Trang không gửi dữ liệu lên Lark, Hermes hay máy chủ.</p></div>
+    </aside>
+    <main>
+      <header id="home" class="topbar">
+        <div class="date"><strong id="date-vn">Hôm nay</strong><span id="date-cn">今天</span></div>
+        <div class="top-actions">
+          <button class="icon-button" aria-label="Tìm nhanh" title="Tìm nhanh" onclick="document.querySelector('#task-input').focus()">⌕</button>
+          <button class="icon-button" aria-label="Thông tin riêng tư" title="Thông tin riêng tư" onclick="document.querySelector('#privacy-note').scrollIntoView({behavior:'smooth'})">ⓘ</button>
+          <div class="avatar" aria-label="Ngọc Ly">NL</div>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow">Không gian của Ngọc Ly · Ly 的个人空间</div>
+          <h1>Mỗi ngày, một bước nhỏ.</h1>
+          <div class="cn">每天，向前一小步。</div>
+          <p>Một nơi gom việc học tiếng Nhật, tiếng Trung và bài tập trong tuần — để Ly nhìn rõ điều cần làm tiếp theo mà không phải giữ tất cả trong đầu.</p>
+          <div class="hero-row">
+            <span class="pill">🇯🇵 Minna no Nihongo</span>
+            <span class="pill">🇨🇳 Giáo trình chuẩn HSK</span>
+            <span class="pill">🌿 Nhẹ nhàng, từng việc một</span>
+          </div>
+        </div>
+        <aside class="hero-note">
+          <div class="note-mark">✧</div>
+          <blockquote>“Không cần giải quyết hết mọi thứ ngay bây giờ. Chọn một việc nhỏ, rồi bắt đầu.”</blockquote>
+          <small>先做一件小事。<br>Chọn việc tiếp theo, không cần chọn cả hành trình.</small>
+        </aside>
+      </section>
+
+      <section class="stats" aria-label="Tóm tắt hôm nay">
+        <div class="stat"><span>Việc đang mở · 待办</span><strong id="open-count">0 việc</strong><small>Trong danh sách cá nhân</small></div>
+        <div class="stat"><span>Ngôn ngữ · 语言</span><strong>Nhật + Trung</strong><small>Minna no Nihongo · HSK</small></div>
+        <div class="stat"><span>Nhịp hôm nay · 今日节奏</span><strong id="today-focus">Chưa chọn</strong><small>Một ưu tiên là đủ</small></div>
+      </section>
+
+      <section id="tasks" class="section">
+        <div class="section-head"><div><h2>Việc cần làm</h2><p>把脑中的事放下来 · Đưa việc ra khỏi đầu, xếp từng việc một</p></div><span class="pill">Cá nhân</span></div>
+        <div class="grid-2">
+          <article class="card card-pad">
+            <div class="card-title"><h3>Danh sách của Ly</h3><span id="task-summary">Chưa có việc</span></div>
+            <div id="task-list" class="task-list"></div>
+            <div style="display:flex;gap:8px;margin-top:12px">
+              <input id="task-input" type="text" maxlength="160" placeholder="Thêm một việc cần làm…" aria-label="Việc cần làm" style="flex:1;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:11px;outline:none;background:white;font-size:12px">
+              <button class="btn" id="add-task">＋ Thêm</button>
+            </div>
+            <p class="hint" style="margin:10px 0 0">Gợi ý: ghi rõ việc nhỏ tiếp theo, ví dụ “ôn 10 từ Bài 11”.</p>
+          </article>
+          <article class="card card-pad">
+            <div class="card-title"><h3>Chọn một ưu tiên</h3><span>一件就好</span></div>
+            <div class="empty" style="margin-bottom:11px">Khi danh sách dài, chọn đúng một việc quan trọng nhất cho phiên này. Các việc còn lại vẫn nằm yên trong danh sách.</div>
+            <div style="display:flex;gap:8px">
+              <input id="focus-input" type="text" maxlength="100" placeholder="Việc Ly muốn tập trung…" aria-label="Ưu tiên hôm nay" style="flex:1;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:11px;outline:none;background:white;font-size:12px">
+              <button class="btn secondary" id="save-focus">Đặt ưu tiên</button>
+            </div>
+            <button class="btn ghost" id="clear-focus" style="margin:9px 0 0;padding-left:0">Bỏ ưu tiên</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="study" class="section">
+        <div class="section-head"><div><h2>Góc học Nhật–Trung</h2><p>双语学习 · Hai ngôn ngữ, một nhịp học vừa sức</p></div></div>
+        <div class="study-grid">
+          <article class="card study-card jp"><div class="symbol">あ</div><h3>Tiếng Nhật <span class="cn">日本語</span></h3><p>Học theo Minna no Nihongo. Ghi lại bài và trang đang học để lần sau nối tiếp dễ dàng.</p><div class="mini-tags"><span>Minna no Nihongo</span><span>PDF</span><span>Ôn từ & ngữ pháp</span></div></article>
+          <article class="card study-card zh"><div class="symbol">文</div><h3>Tiếng Trung <span class="cn">中文</span></h3><p>Học theo Giáo trình chuẩn HSK. Có thể nhờ Gia sư Nhật Trung giải thích, luyện tập và sửa câu.</p><div class="mini-tags"><span>Giáo trình chuẩn HSK</span><span>PDF</span><span>Flashcard & hội thoại</span></div></article>
+        </div>
+      </section>
+
+      <section id="focus" class="section">
+        <div class="section-head"><div><h2>Phiên tập trung</h2><p>专注一会儿 · Thử 25 phút học, nghỉ ngắn sau đó</p></div></div>
+        <article class="card focus-card">
+          <div><h3 id="focus-title">Sẵn sàng bắt đầu</h3><p id="focus-sub">Bộ đếm này chỉ chạy trong trang và không ghi nhận hoạt động học ở nơi khác.</p></div>
+          <div><div id="timer" class="timer">25:00</div><div class="timer-actions"><button id="timer-toggle">Bắt đầu</button><button id="timer-reset">Đặt lại</button></div></div>
+        </article>
+      </section>
+
+      <section id="week" class="section">
+        <div class="section-head"><div><h2>Nhịp tuần</h2><p>本周 · Khung nhẹ để Ly tự lên kế hoạch</p></div></div>
+        <div class="card card-pad"><div id="week-grid" class="week"></div><p class="hint" style="margin:11px 2px 0">Các ô ngày chỉ giúp định hướng. Chưa có lịch học cố định nào được điền thay Ly.</p></div>
+      </section>
+
+      <section id="notes" class="section">
+        <div class="section-head"><div><h2>Ghi chú nhanh</h2><p>随手记 · Ý nghĩ, câu hỏi, điều cần nhớ</p></div></div>
+        <div class="grid-2">
+          <article class="card capture">
+            <textarea id="note-input" maxlength="1000" placeholder="Viết nhanh điều Ly muốn nhớ…" aria-label="Ghi chú nhanh"></textarea>
+            <div class="row-actions"><span class="hint">Lưu vào trình duyệt này khi bấm nút</span><button class="btn" id="save-note">Lưu ghi chú</button></div>
+          </article>
+          <article class="card card-pad"><div class="card-title"><h3>Ghi chú gần đây</h3><span id="note-count">0 ghi chú</span></div><div id="note-list" class="note-list"></div></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><div><h2>Lối tắt học tập</h2><p>快捷入口 · Các nơi Ly thường dùng</p></div></div>
+        <div class="links">
+          <a class="resource" href="#study"><span class="res-ico">🇯🇵</span><span><b>Minna no Nihongo</b><small>Giáo trình tiếng Nhật · PDF</small></span></a>
+          <a class="resource" href="#study"><span class="res-ico">🇨🇳</span><span><b>Giáo trình chuẩn HSK</b><small>Giáo trình tiếng Trung · PDF</small></span></a>
+          <a class="resource" href="#privacy-note"><span class="res-ico">✦</span><span><b>Gia sư Nhật Trung</b><small>Gợi nhớ quy trình học đã thiết kế</small></span></a>
+        </div>
+      </section>
+
+      <footer id="privacy-note" class="footer">
+        <span>Workbench công khai của Ngọc Ly · Bản trình diễn tĩnh</span>
+        <span>Không gọi API · Không kết nối Lark/Hermes · Dữ liệu chỉ nằm trong localStorage của từng trình duyệt.</span>
+      </footer>
+    </main>
+  </div>
+  <script>
+    const STORE = 'ngoc-ly-workbench-v1';
+    const initial = { tasks: [], notes: [], focus: '' };
+    let data;
+    try { data = { ...initial, ...JSON.parse(localStorage.getItem(STORE) || '{}') }; }
+    catch { data = { ...initial }; }
+    const persist = () => localStorage.setItem(STORE, JSON.stringify(data));
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const viDate = new Intl.DateTimeFormat('vi-VN',{weekday:'long',day:'numeric',month:'long'});
+    const cnDate = new Intl.DateTimeFormat('zh-CN',{weekday:'long',month:'numeric',day:'numeric'});
+    const now = new Date();
+    document.querySelector('#date-vn').textContent = viDate.format(now).replace(/^./,x=>x.toLocaleUpperCase('vi-VN'));
+    document.querySelector('#date-cn').textContent = cnDate.format(now);
+    function renderTasks(){
+      const host=document.querySelector('#task-list');
+      if(!data.tasks.length) host.innerHTML='<div class="empty">Danh sách đang trống. Thêm việc cần làm khi Ly sẵn sàng; trang không tự tạo deadline hay đánh dấu việc đã hoàn thành.</div>';
+      else host.innerHTML=data.tasks.map((t,i)=>`<label class="task-row ${t.done?'done':''}"><input type="checkbox" data-task="${i}" ${t.done?'checked':''}><span class="task-text">${esc(t.text)}</span><button class="task-delete" data-delete="${i}" aria-label="Xóa việc">×</button></label>`).join('');
+      const open=data.tasks.filter(t=>!t.done).length;
+      document.querySelector('#open-count').textContent=`${open} việc`;
+      document.querySelector('#task-summary').textContent=data.tasks.length?`${open} còn mở · ${data.tasks.length-open} xong`:'Chưa có việc';
+      host.querySelectorAll('[data-task]').forEach(el=>el.addEventListener('change',()=>{data.tasks[+el.dataset.task].done=el.checked;persist();renderTasks();}));
+      host.querySelectorAll('[data-delete]').forEach(el=>el.addEventListener('click',e=>{e.preventDefault();data.tasks.splice(+el.dataset.delete,1);persist();renderTasks();}));
+    }
+    function addTask(){const input=document.querySelector('#task-input'),text=input.value.trim();if(!text)return;data.tasks.unshift({text,done:false});input.value='';persist();renderTasks();}
+    document.querySelector('#add-task').addEventListener('click',addTask);
+    document.querySelector('#task-input').addEventListener('keydown',e=>{if(e.key==='Enter')addTask();});
+    function renderFocus(){document.querySelector('#today-focus').textContent=data.focus||'Chưa chọn';document.querySelector('#focus-input').value=data.focus||'';document.querySelector('#focus-title').textContent=data.focus?`Đang ưu tiên: ${data.focus}`:'Sẵn sàng bắt đầu';}
+    document.querySelector('#save-focus').addEventListener('click',()=>{data.focus=document.querySelector('#focus-input').value.trim();persist();renderFocus();});
+    document.querySelector('#clear-focus').addEventListener('click',()=>{data.focus='';persist();renderFocus();});
+    function renderNotes(){const host=document.querySelector('#note-list');document.querySelector('#note-count').textContent=`${data.notes.length} ghi chú`;host.innerHTML=data.notes.length?data.notes.map(n=>`<div class="note-item"><p>${esc(n.text)}</p><small>${esc(n.time)}</small></div>`).join(''):'<div class="empty">Ghi chú sẽ hiện ở đây sau khi Ly lưu.</div>';}
+    document.querySelector('#save-note').addEventListener('click',()=>{const input=document.querySelector('#note-input'),text=input.value.trim();if(!text)return;data.notes.unshift({text,time:new Intl.DateTimeFormat('vi-VN',{dateStyle:'short',timeStyle:'short'}).format(new Date())});data.notes=data.notes.slice(0,30);input.value='';persist();renderNotes();});
+    const weekNames=['T2','T3','T4','T5','T6','T7','CN'];
+    const today=(now.getDay()+6)%7;
+    document.querySelector('#week-grid').innerHTML=weekNames.map((d,i)=>`<div class="day ${i===today?'today':''}"><span>${d}</span><strong>${i===today?'Hôm nay':'Chưa lên lịch'}</strong></div>`).join('');
+    let remaining=25*60, interval=null;
+    const timerEl=document.querySelector('#timer'),toggle=document.querySelector('#timer-toggle');
+    function paintTimer(){timerEl.textContent=`${String(Math.floor(remaining/60)).padStart(2,'0')}:${String(remaining%60).padStart(2,'0')}`;}
+    toggle.addEventListener('click',()=>{if(interval){clearInterval(interval);interval=null;toggle.textContent='Tiếp tục';return;}toggle.textContent='Tạm dừng';interval=setInterval(()=>{remaining--;paintTimer();if(remaining<=0){clearInterval(interval);interval=null;toggle.textContent='Bắt đầu lại';document.querySelector('#focus-sub').textContent='Hết phiên 25 phút. Nghỉ một chút hoặc bắt đầu phiên mới.';if('Notification'in window&&Notification.permission==='granted')new Notification('Phiên tập trung đã xong',{body:'Ly nghỉ ngắn một chút nhé.'});}},1000);});
+    document.querySelector('#timer-reset').addEventListener('click',()=>{if(interval)clearInterval(interval);interval=null;remaining=25*60;toggle.textContent='Bắt đầu';document.querySelector('#focus-sub').textContent='Bộ đếm này chỉ chạy trong trang và không ghi nhận hoạt động học ở nơi khác.';paintTimer();});
+    document.querySelectorAll('.nav-link').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));a.classList.add('active');}));
+    renderTasks();renderFocus();renderNotes();paintTimer();
+  </script>
+</body>
+</html>
+
